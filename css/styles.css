@@ -21,6 +21,20 @@ body { background: #111; color: #ddd; font-family: Arial, sans-serif; }
   aspect-ratio: 360 / 504;
   perspective: 1000px;
 }
+<!-- NPC Encounter Modal -->
+<div id="modal-encounter" class="modal">
+  <h2 id="npc-name">Rival</h2>
+  <p>
+    HP: <span id="npc-hp"></span> |
+    AP: <span id="npc-ap"></span>
+  </p>
+  <div style="margin:16px 0;">
+    <button id="btn-npc-attack">Attack</button>
+    <button id="btn-npc-defend">Defend</button>
+    <button id="btn-npc-special">Special</button>
+  </div>
+  <button onclick="closeEncounter()">Flee</button>
+</div>
 
 /* Modals */
 .modal {
