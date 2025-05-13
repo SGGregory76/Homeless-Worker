@@ -1,80 +1,98 @@
 <!DOCTYPE html>
-
 <html lang="en">
 <head>
   <meta charset="UTF-8">
   <title>City Survivor Profile</title>
   <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- External stylesheet -->
-  <link rel="stylesheet" href="style.css">
+  <!-- jsDelivr CDN for style.css -->
+  <link rel="stylesheet"
+        href="https://cdn.jsdelivr.net/gh/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME@main/style.css">
 </head>
-<body>
-  <div id="survivor-widget">
-    <h1>City Survivor Profile</h1>
-    <div class="card-container">
+<body style="margin:0;padding:0;background:#111;color:#ddd;">
 
-```
-  <!-- Modals -->
-  <div id="modal-allocate" class="modal">
-    <h2>Allocate Points</h2>
-    <p>No points to allocate.</p>
-    <button>Close</button>
-  </div>
-  <div id="modal-gear" class="modal">
-    <h2>Manage Gear</h2>
-    <p>No gear equipped.</p>
-    <button>Close</button>
-  </div>
-  <div id="modal-inv" class="modal">
-    <h2>Inventory</h2>
-    <p>Your inventory is empty.</p>
-    <button>Close</button>
-  </div>
+  <!-- Shell container to center the widget -->
+  <div style="width:100%;min-height:100vh;display:flex;align-items:center;justify-content:center;">
+    <div id="survivor-widget" style="width:90%;max-width:360px;text-align:center;font-family:Arial,sans-serif;">
 
-  <!-- Flip Card -->
-  <div class="flip-card">
-    <!-- Front -->
-    <div class="front">
-      <div class="header">
-        <div class="avatar" title="Avatar">👤</div>
-        <h2 title="Name">City Survivor</h2>
-        <div style="display:flex; gap:8px;"><div class="slot" title="Weapon"></div><div class="slot" title="Armor"></div></div>
-      </div>
-      <div class="stats-grid">
-        <div class="stat" title="Endurance"><small>END</small><strong>0</strong></div>
-        <div class="stat" title="Agility"><small>AGI</small><strong>0</strong></div>
-        <div class="stat" title="Perception"><small>PER</small><strong>0</strong></div>
-        <div class="stat" title="Street Smarts"><small>STR</small><strong>0</strong></div>
-        <div class="stat" title="Hunger"><small>HUN</small><strong>0</strong></div>
-        <div class="stat" title="Thirst"><small>THI</small><strong>0</strong></div>
-        <div class="stat" title="Morale"><small>MOR</small><strong>0</strong></div>
-        <div class="stat" title="Charisma"><small>CHA</small><strong>0</strong></div>
-      </div>
-      <div class="derived"><div title="HP Max">HP Max: <span>10</span></div><div title="AP">AP: <span>3</span></div><div title="SA">SA: <span>5</span></div></div>
-      <div class="containers"><div title="Backpack">🎒 <span>0</span></div><div title="Kit">🧰 <span>0</span></div><div title="Gold">💰 <span>0</span></div></div>
-      <div class="footer">
-        <button title="Allocate Points">Allocate</button>
-        <button title="Manage Gear">Gear</button>
-        <button title="Inventory">Inv</button>
+      <h1 style="margin:0 0 16px;color:#bbb;font-size:1.8rem;">City Survivor Profile</h1>
+      <div class="card-container" style="position:relative;width:100%;aspect-ratio:360/504;perspective:1000px;">
+
+        <!-- Allocate Modal -->
+        <div id="modal-allocate" class="modal">
+          <h2>Allocate Points</h2>
+          <p>No points to allocate.</p>
+          <button>Close</button>
+        </div>
+
+        <!-- Gear Modal -->
+        <div id="modal-gear" class="modal">
+          <h2>Manage Gear</h2>
+          <p>No gear equipped.</p>
+          <button>Close</button>
+        </div>
+
+        <!-- Inventory Modal -->
+        <div id="modal-inv" class="modal">
+          <h2>Inventory</h2>
+          <p>Your inventory is empty.</p>
+          <button>Close</button>
+        </div>
+
+        <!-- Flip Card -->
+        <div class="flip-card">
+          <!-- Front -->
+          <div class="front">
+            <div class="header">
+              <div class="avatar" title="Avatar">👤</div>
+              <h2 title="Name">City Survivor</h2>
+              <div style="display:flex;gap:8px;">
+                <div class="slot" title="Weapon"></div>
+                <div class="slot" title="Armor"></div>
+              </div>
+            </div>
+            <div class="stats-grid">
+              <div class="stat"><small>END</small><strong>0</strong></div>
+              <div class="stat"><small>AGI</small><strong>0</strong></div>
+              <div class="stat"><small>PER</small><strong>0</strong></div>
+              <div class="stat"><small>STR</small><strong>0</strong></div>
+              <div class="stat"><small>HUN</small><strong>0</strong></div>
+              <div class="stat"><small>THI</small><strong>0</strong></div>
+              <div class="stat"><small>MOR</small><strong>0</strong></div>
+              <div class="stat"><small>CHA</small><strong>0</strong></div>
+            </div>
+            <div class="derived">
+              <div>HP Max: <span>10</span></div>
+              <div>AP: <span>3</span></div>
+              <div>SA: <span>5</span></div>
+            </div>
+            <div class="containers">
+              <div>🎒 <span>0</span></div>
+              <div>🧰 <span>0</span></div>
+              <div>💰 <span>0</span></div>
+            </div>
+            <div class="footer">
+              <button>Allocate</button>
+              <button>Gear</button>
+              <button>Inv</button>
+            </div>
+          </div>
+
+          <!-- Back -->
+          <div class="back">
+            <h3>Unlocked Skills</h3>
+            <ul id="skills-list" class="skill-list"></ul>
+            <button>Back</button>
+          </div>
+        </div>
+
       </div>
     </div>
-
-    <!-- Back -->
-    <div class="back">
-      <h3>Unlocked Skills</h3>
-      <ul id="skills-list" class="skill-list"></ul>
-      <button>Back</button>
-    </div>
   </div>
 
-</div>
-```
-
-  </div>
-
-  <!-- External script -->
-
-  <script type="module" src="survivor.js"></script>
-
+  <!-- jsDelivr CDN for survivor.js -->
+  <script type="module"
+          src="https://cdn.jsdelivr.net/gh/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME@main/survivor.js"
+          defer>
+  </script>
 </body>
 </html>
