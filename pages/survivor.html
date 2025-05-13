@@ -1,98 +1,249 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-  <meta charset="UTF-8">
+  <meta charset="UTF-8" />
   <title>City Survivor Profile</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <!-- jsDelivr CDN for style.css -->
-  <link rel="stylesheet"
-        href="https://cdn.jsdelivr.net/gh/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME@main/style.css">
+  <meta name="viewport" content="width=device-width, initial-scale=1" />
+
+  <!-- Inlined style.css -->
+  <style>
+    /* Reset & Base */
+    * { margin: 0; padding: 0; box-sizing: border-box; }
+    body { background: #111; color: #ddd; font-family: Arial, sans-serif; }
+
+    /* Shell */
+    #survivor-widget { max-width: 360px; margin: 20px auto; text-align: center; }
+
+    /* Title */
+    #survivor-widget h1 {
+      color: #bbb;
+      font-size: 1.8rem;
+      margin-bottom: 16px;
+    }
+
+    /* Card container */
+    .card-container {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 360/504;
+      perspective: 1000px;
+    }
+
+    /* Modals */
+    .modal {
+      display: none;
+      position: absolute;
+      inset: 0;
+      background: rgba(0, 0, 0, 0.85);
+      color: #ddd;
+      padding: 20px;
+      border-radius: 12px;
+      z-index: 10;
+    }
+    .modal h2 { color: #bbb; font-size: 1.2rem; margin-bottom: 12px; }
+    .modal p { margin-bottom: 16px; }
+    .modal button {
+      padding: 8px 16px;
+      background: #444;
+      color: #ddd;
+      border: none;
+      border-radius: 6px;
+      cursor: pointer;
+    }
+
+    /* Flip card */
+    .flip-card {
+      width: 100%;
+      height: 100%;
+      transform-style: preserve-3d;
+      transition: transform 0.6s;
+      position: relative;
+      cursor: pointer;
+    }
+    .front, .back {
+      position: absolute;
+      inset: 0;
+      border-radius: 12px;
+      overflow: hidden;
+      backface-visibility: hidden;
+    }
+    .front {
+      background: #2b2b2b;
+      color: #ddd;
+      padding: 20px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.6);
+    }
+    .back {
+      background: #2b2b2b;
+      color: #ddd;
+      padding: 20px;
+      box-shadow: 0 6px 12px rgba(0,0,0,0.6);
+      display: none;
+      transform: rotateY(180deg);
+    }
+
+    /* Header & footer */
+    .header, .footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      margin-bottom: 16px;
+    }
+    .header h2 {
+      flex: 1;
+      color: #bbb;
+      font-size: 1.5rem;
+    }
+    .avatar, .slot {
+      width: 48px;
+      height: 48px;
+      background: #444;
+      border-radius: 50%;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 1.5rem;
+    }
+    .footer button {
+      flex: 1;
+      margin: 0 4px;
+      padding: 10px;
+      background: #444;
+      color: #ddd;
+      border: none;
+      border-radius: 6px;
+      font-size: .9rem;
+      cursor: pointer;
+    }
+
+    /* Stats grid */
+    .stats-grid {
+      display: grid;
+      grid-template-columns: repeat(4,1fr);
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .stat {
+      background: #3a3a3a;
+      padding: 10px;
+      border-radius: 6px;
+      text-align: center;
+    }
+    .stat small {
+      display: block;
+      color: #999;
+      font-size: .8rem;
+      margin-bottom: 4px;
+    }
+    .stat strong {
+      display: block;
+      color: #eee;
+      font-size: 1.1rem;
+    }
+
+    /* Derived & containers */
+    .derived, .containers {
+      display: flex;
+      justify-content: space-between;
+      color: #bbb;
+      margin-bottom: 16px;
+      font-size: .9rem;
+    }
+
+    /* Skills list */
+    .skill-list {
+      text-align: left;
+      list-style: disc inside;
+      color: #ddd;
+      margin-bottom: 16px;
+    }
+    .skill-list li {
+      margin-bottom: 6px;
+    }
+  </style>
 </head>
-<body style="margin:0;padding:0;background:#111;color:#ddd;">
+<body>
 
-  <!-- Shell container to center the widget -->
-  <div style="width:100%;min-height:100vh;display:flex;align-items:center;justify-content:center;">
-    <div id="survivor-widget" style="width:90%;max-width:360px;text-align:center;font-family:Arial,sans-serif;">
+  <div id="survivor-widget">
+    <h1>City Survivor Profile</h1>
+    <div class="card-container">
 
-      <h1 style="margin:0 0 16px;color:#bbb;font-size:1.8rem;">City Survivor Profile</h1>
-      <div class="card-container" style="position:relative;width:100%;aspect-ratio:360/504;perspective:1000px;">
-
-        <!-- Allocate Modal -->
-        <div id="modal-allocate" class="modal">
-          <h2>Allocate Points</h2>
-          <p>No points to allocate.</p>
-          <button>Close</button>
-        </div>
-
-        <!-- Gear Modal -->
-        <div id="modal-gear" class="modal">
-          <h2>Manage Gear</h2>
-          <p>No gear equipped.</p>
-          <button>Close</button>
-        </div>
-
-        <!-- Inventory Modal -->
-        <div id="modal-inv" class="modal">
-          <h2>Inventory</h2>
-          <p>Your inventory is empty.</p>
-          <button>Close</button>
-        </div>
-
-        <!-- Flip Card -->
-        <div class="flip-card">
-          <!-- Front -->
-          <div class="front">
-            <div class="header">
-              <div class="avatar" title="Avatar">👤</div>
-              <h2 title="Name">City Survivor</h2>
-              <div style="display:flex;gap:8px;">
-                <div class="slot" title="Weapon"></div>
-                <div class="slot" title="Armor"></div>
-              </div>
-            </div>
-            <div class="stats-grid">
-              <div class="stat"><small>END</small><strong>0</strong></div>
-              <div class="stat"><small>AGI</small><strong>0</strong></div>
-              <div class="stat"><small>PER</small><strong>0</strong></div>
-              <div class="stat"><small>STR</small><strong>0</strong></div>
-              <div class="stat"><small>HUN</small><strong>0</strong></div>
-              <div class="stat"><small>THI</small><strong>0</strong></div>
-              <div class="stat"><small>MOR</small><strong>0</strong></div>
-              <div class="stat"><small>CHA</small><strong>0</strong></div>
-            </div>
-            <div class="derived">
-              <div>HP Max: <span>10</span></div>
-              <div>AP: <span>3</span></div>
-              <div>SA: <span>5</span></div>
-            </div>
-            <div class="containers">
-              <div>🎒 <span>0</span></div>
-              <div>🧰 <span>0</span></div>
-              <div>💰 <span>0</span></div>
-            </div>
-            <div class="footer">
-              <button>Allocate</button>
-              <button>Gear</button>
-              <button>Inv</button>
-            </div>
-          </div>
-
-          <!-- Back -->
-          <div class="back">
-            <h3>Unlocked Skills</h3>
-            <ul id="skills-list" class="skill-list"></ul>
-            <button>Back</button>
-          </div>
-        </div>
-
+      <!-- Modals -->
+      <div id="modal-allocate" class="modal">
+        <h2>Allocate Points</h2>
+        <p>No points to allocate.</p>
+        <button onclick="event.stopPropagation(); this.parentNode.style.display='none';">Close</button>
       </div>
+      <div id="modal-gear" class="modal">
+        <h2>Manage Gear</h2>
+        <p>No gear equipped.</p>
+        <button onclick="event.stopPropagation(); this.parentNode.style.display='none';">Close</button>
+      </div>
+      <div id="modal-inv" class="modal">
+        <h2>Inventory</h2>
+        <p>Your inventory is empty.</p>
+        <button onclick="event.stopPropagation(); this.parentNode.style.display='none';">Close</button>
+      </div>
+
+      <!-- Flip Card -->
+      <div class="flip-card" onclick="
+        const f=this.querySelector('.front'),
+              b=this.querySelector('.back');
+        if (f.style.display==='none') {
+          f.style.display='block'; b.style.display='none';
+        } else {
+          f.style.display='none'; b.style.display='block';
+        }
+      ">
+        <!-- Front -->
+        <div class="front">
+          <div class="header">
+            <div class="avatar" title="Avatar">👤</div>
+            <h2 title="Name">City Survivor</h2>
+            <div style="display:flex;gap:8px;">
+              <div class="slot" title="Weapon"></div>
+              <div class="slot" title="Armor"></div>
+            </div>
+          </div>
+          <div class="stats-grid">
+            <div class="stat"><small>END</small><strong>0</strong></div>
+            <div class="stat"><small>AGI</small><strong>0</strong></div>
+            <div class="stat"><small>PER</small><strong>0</strong></div>
+            <div class="stat"><small>STR</small><strong>0</strong></div>
+            <div class="stat"><small>HUN</small><strong>0</strong></div>
+            <div class="stat"><small>THI</small><strong>0</strong></div>
+            <div class="stat"><small>MOR</small><strong>0</strong></div>
+            <div class="stat"><small>CHA</small><strong>0</strong></div>
+          </div>
+          <div class="derived">
+            <div>HP Max: <span>10</span></div>
+            <div>AP: <span>3</span></div>
+            <div>SA: <span>5</span></div>
+          </div>
+          <div class="containers">
+            <div>🎒 <span>0</span></div>
+            <div>🧰 <span>0</span></div>
+            <div>💰 <span>0</span></div>
+          </div>
+          <div class="footer">
+            <button title="Allocate Points" onclick="event.stopPropagation(); document.getElementById('modal-allocate').style.display='block';">Allocate</button>
+            <button title="Manage Gear" onclick="event.stopPropagation(); document.getElementById('modal-gear').style.display='block';">Gear</button>
+            <button title="Inventory" onclick="event.stopPropagation(); document.getElementById('modal-inv').style.display='block';">Inv</button>
+          </div>
+        </div>
+
+        <!-- Back -->
+        <div class="back" style="display:none; transform: rotateY(180deg);">
+          <h3 style="color:#bbb; margin-bottom:12px;">Unlocked Skills</h3>
+          <ul id="skills-list" class="skill-list"></ul>
+          <button onclick="event.stopPropagation();" style="width:100%;padding:10px;background:#444;color:#ddd;border:none;border-radius:6px;cursor:pointer;">Back</button>
+        </div>
+      </div>
+
     </div>
   </div>
 
-  <!-- jsDelivr CDN for survivor.js -->
-  <script type="module"
-          src="https://cdn.jsdelivr.net/gh/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME@main/survivor.js"
-          defer>
-  </script>
+  <!-- External script (flip & modals logic + dynamic skills) -->
+  <script type="module" src="https://cdn.jsdelivr.net/gh/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME@main/survivor.js"></script>
 </body>
 </html>
