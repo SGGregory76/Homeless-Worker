@@ -53,6 +53,83 @@ export function createNPC() {
   };
   return npc;
 }
+import { createNPC } from './survivor.js'; // or same file
+
+let currentNPC = null;
+
+// Open an encounter
+export function startEncounter() {
+  currentNPC = createNPC();
+  const m = document.getElementById('modal-encounter');
+  document.getElementById('npc-name').textContent = currentNPC.name;
+  document.getElementById('npc-hp').textContent   = currentNPC.hp;
+  document.getElementById('npc-ap').textContent   = currentNPC.ap;
+  m.style.display = 'block';
+}
+
+// Close encounter
+export function closeEncounter() {
+  document.getElementById('modal-encounter').style.display = 'none';
+}
+
+// Player action handlers
+document.getElementById('btn-npc-attack').addEventListener('click', e => {
+  e.stopPropagation();
+  // Simple damage: player STR vs NPC END
+  const dmg = Math.max(1, state.stats.str * 2 - currentNPC.stats.end);
+  currentNPC.hp -= dmg;
+  alert(`You deal ${dmg} damage!`);
+  updateNPCStats();
+  npcTurn();
+});
+
+document.getElementById('btn-npc-defend').addEventListener('click', e => {
+  e.stopPropagation();
+  alert('You brace for the next hit.');
+  npcTurn(true);
+});
+
+document.getElementById('btn-npc-special').addEventListener('click', e => {
+  e.stopPropagation();
+  // Use a skill if available
+  if (!skillsUnlocked.includes('Power Strike')) {
+    alert('You don’t know that skill!');
+    return;
+  }
+  const dmg = state.stats.agi * 3;
+  currentNPC.hp -= dmg;
+  alert(`Power Strike hits for ${dmg}!`);
+  updateNPCStats();
+  npcTurn();
+});
+
+function updateNPCStats() {
+  document.getElementById('npc-hp').textContent = Math.max(0, currentNPC.hp);
+  if (currentNPC.hp <= 0) {
+    alert(`You defeated ${currentNPC.name}!`);
+    closeEncounter();
+    // TODO: award loot/XP here
+  }
+}
+
+function npcTurn(playerDefended = false) {
+  if (currentNPC.hp <= 0) return;
+  // NPC simple AI: 70% attack, else defend
+  if (Math.random() < 0.7) {
+    const dmg = Math.max(1, currentNPC.stats.str * 2 - (playerDefended ? state.stats.end*2 : state.stats.end));
+    state.hp -= dmg;
+    alert(`${currentNPC.name} hits you for ${dmg}!`);
+    // TODO: update player HP display
+  } else {
+    alert(`${currentNPC.name} is defending.`);
+  }
+  if (state.hp <= 0) {
+    alert('You have been defeated! Game over.');
+    closeEncounter();
+    // TODO: handle game over
+  }
+}
+
 
 // Initialize empty
 document.getElementById('skills-list').innerHTML = '';
