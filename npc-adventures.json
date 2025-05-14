@@ -286,7 +286,7 @@
     "svg": "landmark",
     "description": "A silent statue seems to watch you.",
     "trust": 0,
-    "questions": [
+    "questions": [ }
       {
         "prompt": "Touch it?",
         "icon": "🤏",
