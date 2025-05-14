@@ -1,0 +1,73 @@
+[
+  {
+    "id": "stranger",
+    "name": "Mysterious Stranger",
+    "icon": "🕵️‍♂️",
+    "svg": "user-secret",
+    "description": "A cloaked figure offers you a secret path.",
+    "trust": 0,
+    "questions": [
+      {
+        "prompt": "Do you trust the stranger?",
+        "icon": "❓",
+        "svg": "question-circle",
+        "options": [
+          {
+            "text": "Yes",
+            "icon": "✅",
+            "svg": "check",
+            "reward": {
+              "stats": { "end": 1, "agi": 1 },
+              "items": ["Coin"]
+            }
+          },
+          {
+            "text": "No",
+            "icon": "❌",
+            "svg": "times",
+            "reward": {
+              "stats": {},
+              "items": []
+            }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "hidden_cache",
+    "name": "Hidden Cache",
+    "icon": "🗺️",
+    "svg": "map-marker-alt",
+    "description": "You stumble upon a cleverly concealed stash.",
+    "trust": 0,
+    "questions": [
+      {
+        "prompt": "Open it?",
+        "icon": "🗝️",
+        "svg": "key",
+        "options": [
+          {
+            "text": "Open",
+            "icon": "👍",
+            "svg": "thumbs-up",
+            "reward": {
+              "stats": { "str": 1 },
+              "items": ["Knife"]
+            }
+          },
+          {
+            "text": "Leave",
+            "icon": "👎",
+            "svg": "thumbs-down",
+            "reward": {
+              "stats": {},
+              "items": []
+            }
+          }
+        ]
+      }
+    ]
+  }
+  /* … add your other 8 encounters here … */
+]
