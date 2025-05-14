@@ -16,19 +16,13 @@
             "text": "Yes",
             "icon": "✅",
             "svg": "check",
-            "reward": {
-              "stats": { "end": 1, "agi": 1 },
-              "items": ["Coin"]
-            }
+            "reward": { "stats": { "end": 1, "agi": 1 }, "items": ["Coin"] }
           },
           {
             "text": "No",
             "icon": "❌",
             "svg": "times",
-            "reward": {
-              "stats": {},
-              "items": []
-            }
+            "reward": { "stats": {}, "items": [] }
           }
         ]
       }
@@ -51,23 +45,248 @@
             "text": "Open",
             "icon": "👍",
             "svg": "thumbs-up",
-            "reward": {
-              "stats": { "str": 1 },
-              "items": ["Knife"]
-            }
+            "reward": { "stats": { "str": 1 }, "items": ["Knife"] }
           },
           {
             "text": "Leave",
             "icon": "👎",
             "svg": "thumbs-down",
-            "reward": {
-              "stats": {},
-              "items": []
-            }
+            "reward": { "stats": {}, "items": [] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "traveling_merchant",
+    "name": "Traveling Merchant",
+    "icon": "🧳",
+    "svg": "suitcase",
+    "description": "A merchant with wares rare and curious.",
+    "trust": 1,
+    "questions": [
+      {
+        "prompt": "Buy the mysterious trinket for 2 coins?",
+        "icon": "💰",
+        "svg": "coins",
+        "options": [
+          {
+            "text": "Buy",
+            "icon": "🛒",
+            "svg": "shopping-cart",
+            "reward": { "stats": {}, "items": ["Trinket"] }
+          },
+          {
+            "text": "Haggle",
+            "icon": "🤝",
+            "svg": "handshake",
+            "reward": { "stats": { "per": 1 }, "items": [] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "lost_child",
+    "name": "Lost Child",
+    "icon": "👶",
+    "svg": "child",
+    "description": "A tearful child asks for help finding home.",
+    "trust": 0,
+    "questions": [
+      {
+        "prompt": "Lead them safely?",
+        "icon": "🏡",
+        "svg": "home",
+        "options": [
+          {
+            "text": "Guide",
+            "icon": "🚶‍♂️",
+            "svg": "walking",
+            "reward": { "stats": { "per": 1 }, "items": [] }
+          },
+          {
+            "text": "Ignore",
+            "icon": "🙈",
+            "svg": "eye-slash",
+            "reward": { "stats": {}, "items": [] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "forest_beast",
+    "name": "Forest Beast",
+    "icon": "🐺",
+    "svg": "wolf-pack-battalion",
+    "description": "A snarling beast blocks your path.",
+    "trust": -1,
+    "questions": [
+      {
+        "prompt": "Fight or flee?",
+        "icon": "⚔️",
+        "svg": "crossed-swords",
+        "options": [
+          {
+            "text": "Fight",
+            "icon": "🗡️",
+            "svg": "dagger",
+            "reward": { "stats": { "str": 2 }, "items": [] }
+          },
+          {
+            "text": "Flee",
+            "icon": "🏃",
+            "svg": "running",
+            "reward": { "stats": { "agi": 2 }, "items": [] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "wise_hermit",
+    "name": "Wise Hermit",
+    "icon": "🧙",
+    "svg": "hat-wizard",
+    "description": "An old hermit offers cryptic advice.",
+    "trust": 2,
+    "questions": [
+      {
+        "prompt": "Accept the prophecy?",
+        "icon": "🔮",
+        "svg": "circle",
+        "options": [
+          {
+            "text": "Yes",
+            "icon": "✨",
+            "svg": "star",
+            "reward": { "stats": { "per": 2 }, "items": ["Scroll"] }
+          },
+          {
+            "text": "No",
+            "icon": "❌",
+            "svg": "times",
+            "reward": { "stats": {}, "items": [] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "city_guard",
+    "name": "City Guard",
+    "icon": "🛡️",
+    "svg": "shield-alt",
+    "description": "A guard demands to see your papers.",
+    "trust": -2,
+    "questions": [
+      {
+        "prompt": "Show your ID?",
+        "icon": "📜",
+        "svg": "file-alt",
+        "options": [
+          {
+            "text": "Comply",
+            "icon": "✅",
+            "svg": "check",
+            "reward": { "stats": {}, "items": [] }
+          },
+          {
+            "text": "Bribe",
+            "icon": "💵",
+            "svg": "money-bill",
+            "reward": { "stats": {}, "items": ["Bribe"] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "wandering_minstrel",
+    "name": "Wandering Minstrel",
+    "icon": "🎶",
+    "svg": "music",
+    "description": "A minstrel offers to play a tune.",
+    "trust": 1,
+    "questions": [
+      {
+        "prompt": "Listen or pass?",
+        "icon": "🎵",
+        "svg": "music-note",
+        "options": [
+          {
+            "text": "Listen",
+            "icon": "🎧",
+            "svg": "headphones",
+            "reward": { "stats": { "mor": 1 }, "items": [] }
+          },
+          {
+            "text": "Pass",
+            "icon": "🚶",
+            "svg": "walking",
+            "reward": { "stats": {}, "items": [] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "ancient_statue",
+    "name": "Ancient Statue",
+    "icon": "🗿",
+    "svg": "landmark",
+    "description": "A silent statue seems to watch you.",
+    "trust": 0,
+    "questions": [
+      {
+        "prompt": "Touch it?",
+        "icon": "🤏",
+        "svg": "hand-point-up",
+        "options": [
+          {
+            "text": "Touch",
+            "icon": "✋",
+            "svg": "hand-paper",
+            "reward": { "stats": { "hun": 1 }, "items": [] }
+          },
+          {
+            "text": "Observe",
+            "icon": "👁️",
+            "svg": "eye",
+            "reward": { "stats": {}, "items": [] }
+          }
+        ]
+      }
+    ]
+  },
+  {
+    "id": "mystic_fog",
+    "name": "Mystic Fog",
+    "icon": "🌫️",
+    "svg": "smog",
+    "description": "A swirling fog obscures the path ahead.",
+    "trust": 0,
+    "questions": [
+      {
+        "prompt": "Enter the fog?",
+        "icon": "👣",
+        "svg": "shoe-prints",
+        "options": [
+          {
+            "text": "Enter",
+            "icon": "🚶‍♀️",
+            "svg": "walking",
+            "reward": { "stats": { "per": 1 }, "items": [] }
+          },
+          {
+            "text": "Retreat",
+            "icon": "↩️",
+            "svg": "undo",
+            "reward": { "stats": {}, "items": [] }
           }
         ]
       }
     ]
   }
-  /* … add your other 8 encounters here … */
 ]
