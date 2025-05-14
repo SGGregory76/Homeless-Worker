@@ -43,7 +43,6 @@
     .front > button, .back > button { width:100%; margin:8px 0; }
     .actions button { margin:0 6px; }
 
-    /* Modal styling */
     .modal {
       display:none; position:absolute; top:50%; left:50%;
       transform:translate(-50%,-50%);
@@ -145,19 +144,18 @@
     </div>
   </div>
 
-  <!-- Encounter Modal -->
+  <!-- Modals -->
   <div class="modal" id="modal-enc">
     <h2 id="enc-name"></h2>
     <p id="enc-desc"></p>
     <div id="question-form"></div>
     <div class="actions"><button id="submit-answers">Submit</button></div>
   </div>
-  <!-- Gear & Inventory Modals -->
   <div class="modal" id="modal-gear"><h2>Gear</h2><p>(gear UI)</p><div class="actions"><button onclick="closeModal('modal-gear')">Close</button></div></div>
   <div class="modal" id="modal-inv"><h2>Inventory</h2><p>(inv UI)</p><div class="actions"><button onclick="closeModal('modal-inv')">Close</button></div></div>
 
   <script>
-    // Helper refs
+    // Refs
     const errorLog      = document.getElementById('errorLog'),
           card          = document.getElementById('card'),
           encBtn        = document.getElementById('encBtn'),
@@ -172,7 +170,7 @@
           statusEl      = document.getElementById('encStatus'),
           skillsList    = document.getElementById('skills-list');
 
-    // Inline icon map
+    // Parse inline icon map
     const iconsMap = JSON.parse(document.querySelector('script.iconmap').textContent);
 
     let npcList    = [],
@@ -201,8 +199,11 @@
     }
 
     function loadEncounters() {
-      fetch('./npc-adventures.json')
+      fetch('/npc-adventures.json')
         .then(res => {
+          if (res.status === 404) {
+            throw new Error('npc-adventures.json not found at root — please upload it there.');
+          }
           if (!res.ok) throw new Error(`HTTP ${res.status} fetching npc-adventures.json`);
           return res.json();
         })
