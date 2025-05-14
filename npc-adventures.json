@@ -16,13 +16,19 @@
             "text": "Yes",
             "icon": "✅",
             "svg": "check",
-            "reward": { "stats": { "end": 1, "agi": 1 }, "items": ["Coin"] }
+            "reward": {
+              "stats": { "end": 1, "agi": 1 },
+              "items": ["Coin"]
+            }
           },
           {
             "text": "No",
             "icon": "❌",
             "svg": "times",
-            "reward": { "stats": {}, "items": [] }
+            "reward": {
+              "stats": {},
+              "items": []
+            }
           }
         ]
       }
@@ -45,13 +51,19 @@
             "text": "Open",
             "icon": "👍",
             "svg": "thumbs-up",
-            "reward": { "stats": { "str": 1 }, "items": ["Knife"] }
+            "reward": {
+              "stats": { "str": 1 },
+              "items": ["Knife"]
+            }
           },
           {
             "text": "Leave",
             "icon": "👎",
             "svg": "thumbs-down",
-            "reward": { "stats": {}, "items": [] }
+            "reward": {
+              "stats": {},
+              "items": []
+            }
           }
         ]
       }
@@ -74,13 +86,19 @@
             "text": "Buy",
             "icon": "🛒",
             "svg": "shopping-cart",
-            "reward": { "stats": {}, "items": ["Trinket"] }
+            "reward": {
+              "stats": {},
+              "items": ["Trinket"]
+            }
           },
           {
             "text": "Haggle",
             "icon": "🤝",
             "svg": "handshake",
-            "reward": { "stats": { "per": 1 }, "items": [] }
+            "reward": {
+              "stats": { "per": 1 },
+              "items": []
+            }
           }
         ]
       }
@@ -103,13 +121,19 @@
             "text": "Guide",
             "icon": "🚶‍♂️",
             "svg": "walking",
-            "reward": { "stats": { "per": 1 }, "items": [] }
+            "reward": {
+              "stats": { "per": 1 },
+              "items": []
+            }
           },
           {
             "text": "Ignore",
             "icon": "🙈",
             "svg": "eye-slash",
-            "reward": { "stats": {}, "items": [] }
+            "reward": {
+              "stats": {},
+              "items": []
+            }
           }
         ]
       }
@@ -132,13 +156,19 @@
             "text": "Fight",
             "icon": "🗡️",
             "svg": "dagger",
-            "reward": { "stats": { "str": 2 }, "items": [] }
+            "reward": {
+              "stats": { "str": 2 },
+              "items": []
+            }
           },
           {
             "text": "Flee",
             "icon": "🏃",
             "svg": "running",
-            "reward": { "stats": { "agi": 2 }, "items": [] }
+            "reward": {
+              "stats": { "agi": 2 },
+              "items": []
+            }
           }
         ]
       }
@@ -161,13 +191,19 @@
             "text": "Yes",
             "icon": "✨",
             "svg": "star",
-            "reward": { "stats": { "per": 2 }, "items": ["Scroll"] }
+            "reward": {
+              "stats": { "per": 2 },
+              "items": ["Scroll"]
+            }
           },
           {
             "text": "No",
             "icon": "❌",
             "svg": "times",
-            "reward": { "stats": {}, "items": [] }
+            "reward": {
+              "stats": {},
+              "items": []
+            }
           }
         ]
       }
@@ -190,13 +226,19 @@
             "text": "Comply",
             "icon": "✅",
             "svg": "check",
-            "reward": { "stats": {}, "items": [] }
+            "reward": {
+              "stats": {},
+              "items": []
+            }
           },
           {
             "text": "Bribe",
             "icon": "💵",
             "svg": "money-bill",
-            "reward": { "stats": {}, "items": ["Bribe"] }
+            "reward": {
+              "stats": {},
+              "items": ["Bribe"]
+            }
           }
         ]
       }
@@ -219,13 +261,19 @@
             "text": "Listen",
             "icon": "🎧",
             "svg": "headphones",
-            "reward": { "stats": { "mor": 1 }, "items": [] }
+            "reward": {
+              "stats": { "mor": 1 },
+              "items": []
+            }
           },
           {
             "text": "Pass",
             "icon": "🚶",
             "svg": "walking",
-            "reward": { "stats": {}, "items": [] }
+            "reward": {
+              "stats": {},
+              "items": []
+            }
           }
         ]
       }
@@ -248,13 +296,19 @@
             "text": "Touch",
             "icon": "✋",
             "svg": "hand-paper",
-            "reward": { "stats": { "hun": 1 }, "items": [] }
+            "reward": {
+              "stats": { "hun": 1 },
+              "items": []
+            }
           },
           {
             "text": "Observe",
             "icon": "👁️",
             "svg": "eye",
-            "reward": { "stats": {}, "items": [] }
+            "reward": {
+              "stats": {},
+              "items": []
+            }
           }
         ]
       }
@@ -277,13 +331,19 @@
             "text": "Enter",
             "icon": "🚶‍♀️",
             "svg": "walking",
-            "reward": { "stats": { "per": 1 }, "items": [] }
+            "reward": {
+              "stats": { "per": 1 },
+              "items": []
+            }
           },
           {
             "text": "Retreat",
             "icon": "↩️",
             "svg": "undo",
-            "reward": { "stats": {}, "items": [] }
+            "reward": {
+              "stats": {},
+              "items": []
+            }
           }
         ]
       }
