@@ -1,0 +1,18 @@
+{
+  "user-secret": {
+    "type": "fa", 
+    "class": "fas fa-user-secret"
+  },
+  "map-marker-alt": {
+    "type": "fa",
+    "class": "fas fa-map-marker-alt"
+  },
+  "heart": {
+    "type": "fa",
+    "class": "fas fa-heart"
+  },
+  "bomb": {
+    "type": "fa",
+    "class": "fas fa-bomb"
+  }
+}
