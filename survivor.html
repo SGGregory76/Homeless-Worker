@@ -9,7 +9,7 @@
     body { background:#111; color:#ddd; font-family:Arial,sans-serif }
     #widget { max-width:360px; margin:20px auto; position:relative }
     h1 { text-align:center; color:#ccc; font-size:1.8rem; margin-bottom:16px }
-    #errorLog { display:none; background:#440000; color:#f88; padding:10px; margin-bottom:12px; font-family:monospace; text-align:center; }
+    #errorLog { display:none; background:#440000; color:#f88; padding:10px; margin-bottom:12px; text-align:center; }
 
     .card { width:100%; aspect-ratio:360/504; perspective:1000px; margin-bottom:12px }
     .card .inner { position:relative; width:100%; height:100%; transform-style:preserve-3d; transition:transform .6s; }
@@ -30,9 +30,7 @@
       display:flex; align-items:center; justify-content:center; font-size:1.5rem;
     }
 
-    .stats {
-      display:grid; grid-template-columns:repeat(4,1fr); gap:8px; flex-grow:1;
-    }
+    .stats { display:grid; grid-template-columns:repeat(4,1fr); gap:8px; flex-grow:1; }
     .stat { background:#3a3a3a; padding:8px; border-radius:6px; text-align:center; }
     .stat small { color:#999; font-size:.75rem; display:block; }
     .stat strong { color:#eee; font-size:1.1rem; display:block; }
@@ -45,16 +43,23 @@
     .front > button, .back > button { width:100%; margin:8px 0; }
     .actions button { margin:0 6px; }
 
+    /* Modal styling */
     .modal {
       display:none; position:absolute; top:50%; left:50%;
       transform:translate(-50%,-50%);
       background:#2b2b2b; border-radius:12px;
       box-shadow:0 6px 12px rgba(0,0,0,0.6);
-      width:90%; max-width:320px; padding:20px; z-index:1000;
+      width:280px; max-height:80vh; overflow-y:auto;
+      padding:20px; z-index:1000;
     }
     .modal h2 { color:#ccc; margin-bottom:12px; text-align:center; }
     #question-form div { margin-bottom:12px; }
-    #question-form label { display:block; }
+    #question-form p { margin-bottom:6px; font-weight:bold; }
+    #question-form label {
+      display:flex; align-items:center; justify-content:space-between;
+      background:#333; padding:6px 8px; border-radius:4px; margin-bottom:4px;
+    }
+    #question-form input[type="radio"] { margin-left:8px; }
     .emoji { margin-right:4px; }
 
     .back h3 { color:#ccc; margin-bottom:12px; }
@@ -64,49 +69,39 @@
 </head>
 <body>
 
-  <!-- 1) Inline JSON data for encounters -->
-  <script type="application/json" class="enc">
-  [
-    {
-      "id":"stranger",
-      "name":"Mysterious Stranger",
-      "icon":"🕵️‍♂️","svg":"user-secret",
-      "description":"A cloaked figure offers you choices…",
-      "trust":0,
-      "questions":[
-        {
-          "prompt":"Do you trust the stranger?",
-          "icon":"❓","svg":"question-circle",
-          "options":[
-            {"text":"Yes","icon":"✅","svg":"check","reward":{"stats":{"end":1,"agi":1},"items":["Coin"]}},
-            {"text":"No","icon":"❌","svg":"times","reward":{"stats":{},"items":[]}}
-          ]
-        }
-      ]
-    }
-  ]
-  </script>
-
-  <script type="application/json" class="enc">
-  [
-    {
-      "id":"cache",
-      "name":"Hidden Cache",
-      "icon":"🗺️","svg":"map-marker-alt",
-      "description":"You find a stash…",
-      "trust":0,
-      "questions":[
-        {
-          "prompt":"Open it?",
-          "icon":"🗝️","svg":"key",
-          "options":[
-            {"text":"Yes","icon":"👍","svg":"thumbs-up","reward":{"stats":{"str":1},"items":["Knife"]}},
-            {"text":"No","icon":"👎","svg":"thumbs-down","reward":{"stats":{},"items":[]}}
-          ]
-        }
-      ]
-    }
-  ]
+  <!-- Inline icon map -->
+  <script type="application/json" class="iconmap">
+  {
+    "user-secret":     { "type":"fa","class":"fas fa-user-secret" },
+    "question-circle": { "type":"fa","class":"fas fa-question-circle" },
+    "check":           { "type":"fa","class":"fas fa-check" },
+    "times":           { "type":"fa","class":"fas fa-times" },
+    "map-marker-alt":  { "type":"fa","class":"fas fa-map-marker-alt" },
+    "key":             { "type":"fa","class":"fas fa-key" },
+    "thumbs-up":       { "type":"fa","class":"fas fa-thumbs-up" },
+    "thumbs-down":     { "type":"fa","class":"fas fa-thumbs-down" },
+    "coins":           { "type":"fa","class":"fas fa-coins" },
+    "shopping-cart":   { "type":"fa","class":"fas fa-shopping-cart" },
+    "handshake":       { "type":"fa","class":"fas fa-handshake" },
+    "child":           { "type":"fa","class":"fas fa-child" },
+    "eye-slash":       { "type":"fa","class":"fas fa-eye-slash" },
+    "wolf-pack-battalion": { "type":"fa","class":"fas fa-wolf-pack-battalion" },
+    "crossed-swords":  { "type":"fa","class":"fas fa-crossed-swords" },
+    "dagger":          { "type":"fa","class":"fas fa-dagger" },
+    "running":         { "type":"fa","class":"fas fa-running" },
+    "hat-wizard":      { "type":"fa","class":"fas fa-hat-wizard" },
+    "star":            { "type":"fa","class":"fas fa-star" },
+    "shield-alt":      { "type":"fa","class":"fas fa-shield-alt" },
+    "file-alt":        { "type":"fa","class":"fas fa-file-alt" },
+    "music":           { "type":"fa","class":"fas fa-music" },
+    "music-note":      { "type":"fa","class":"fas fa-music-note" },
+    "headphones":      { "type":"fa","class":"fas fa-headphones" },
+    "landmark":        { "type":"fa","class":"fas fa-landmark" },
+    "eye":             { "type":"fa","class":"fas fa-eye" },
+    "smog":            { "type":"fa","class":"fas fa-smog" },
+    "shoe-prints":     { "type":"fa","class":"fas fa-shoe-prints" },
+    "undo":            { "type":"fa","class":"fas fa-undo" }
+  }
   </script>
 
   <div id="widget">
@@ -115,7 +110,7 @@
 
     <div class="card" id="card">
       <div class="inner">
-        <!-- Front -->
+        <!-- Front Face -->
         <div class="front">
           <div class="header">
             <div class="avatar" id="npc-avatar">👤</div>
@@ -139,7 +134,8 @@
           <button id="encBtn">NPC Encounter</button>
           <div id="encStatus" style="text-align:center;color:#ccc;margin-top:8px"></div>
         </div>
-        <!-- Back -->
+
+        <!-- Back Face -->
         <div class="back">
           <h3>Unlocked Skills</h3>
           <ul id="skills-list"></ul>
@@ -149,18 +145,19 @@
     </div>
   </div>
 
-  <!-- Modals -->
+  <!-- Encounter Modal -->
   <div class="modal" id="modal-enc">
     <h2 id="enc-name"></h2>
     <p id="enc-desc"></p>
-    <form id="question-form"></form>
+    <div id="question-form"></div>
     <div class="actions"><button id="submit-answers">Submit</button></div>
   </div>
+  <!-- Gear & Inventory Modals -->
   <div class="modal" id="modal-gear"><h2>Gear</h2><p>(gear UI)</p><div class="actions"><button onclick="closeModal('modal-gear')">Close</button></div></div>
   <div class="modal" id="modal-inv"><h2>Inventory</h2><p>(inv UI)</p><div class="actions"><button onclick="closeModal('modal-inv')">Close</button></div></div>
 
   <script>
-    // Refs
+    // Helper refs
     const errorLog      = document.getElementById('errorLog'),
           card          = document.getElementById('card'),
           encBtn        = document.getElementById('encBtn'),
@@ -175,122 +172,131 @@
           statusEl      = document.getElementById('encStatus'),
           skillsList    = document.getElementById('skills-list');
 
-    let scripts     = [],    // parsed from inline <script.enc>
-        npcList     = [],    // flattened encounters
-        iconsMap    = {},    // loaded from icons.json
-        blockIndex  = 0;
+    // Inline icon map
+    const iconsMap = JSON.parse(document.querySelector('script.iconmap').textContent);
 
-    const player    = { end:0, agi:0, per:0, str:0, hun:0, thi:0, mor:0, cha:0, inv:[], skills:[] };
+    let npcList    = [],
+        blockIndex = 0;
+
+    const player = { end:0, agi:0, per:0, str:0, hun:0, thi:0, mor:0, cha:0, inv:[], skills:[] };
 
     function showError(msg) {
-      errorLog.textContent = msg; errorLog.style.display = 'block';
+      errorLog.textContent = msg;
+      errorLog.style.display = 'block';
     }
-    function openModal(id){document.getElementById(id).style.display='flex'}
-    function closeModal(id){document.getElementById(id).style.display='none'}
-    function flipBack(){card.classList.add('flip')}
-    function flipFront(){card.classList.remove('flip')}
+    function openModal(id)  { document.getElementById(id).style.display = 'flex'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function flipBack()     { card.classList.add('flip'); }
+    function flipFront()    { card.classList.remove('flip'); }
 
-    function deriveRelationship(trust){
-      if(trust>=5) return 'friend';
-      if(trust<=-3) return 'enemy';
+    function deriveRelationship(t) {
+      if (t >= 5)  return 'friend';
+      if (t <= -3) return 'enemy';
       return 'neutral';
     }
-
-    function renderIcon(key,emoji){
+    function renderIcon(key, emoji) {
       const e = `<span class="emoji">${emoji}</span>`;
       const cfg = iconsMap[key];
-      if(cfg && cfg.type==='fa') return e+`<i class="${cfg.class}"></i>`;
-      return e;
+      return cfg && cfg.type==='fa' ? e + `<i class="${cfg.class}"></i>` : e;
     }
 
-    // Load icons.json then parse inline scripts
-    function loadAll(){
-      fetch('icons.json')
-        .then(r=>r.json()).then(map=>{
-          iconsMap = map;
-          // find inline scripts
-          const nodes = document.querySelectorAll('script.enc[type="application/json"]');
-          scripts = Array.from(nodes).map(s=>JSON.parse(s.textContent));
-          npcList = scripts.flat().map(npc=>{
-            const t = typeof npc.trust==='number'?npc.trust:0;
-            return {...npc, trust:t, relationship:deriveRelationship(t)};
-          });
+    function loadEncounters() {
+      fetch('./npc-adventures.json')
+        .then(res => {
+          if (!res.ok) throw new Error(`HTTP ${res.status} fetching npc-adventures.json`);
+          return res.json();
+        })
+        .then(data => {
+          npcList = data.map(npc => ({
+            ...npc,
+            trust: typeof npc.trust==='number'?npc.trust:0,
+            relationship: deriveRelationship(npc.trust||0)
+          }));
           updateStatus();
         })
-        .catch(showError);
+        .catch(err => showError('Encounter load error: ' + err.message));
     }
 
-    function updateStatus(){
+    function updateStatus() {
       const rem = npcList.length - blockIndex;
-      if(blockIndex===0) statusEl.textContent = `${rem} encounter(s) remaining`;
-      else if(blockIndex<npcList.length){
-        const next=npcList[blockIndex];
-        statusEl.textContent = `${rem} remaining - Next: ${next.relationship.toUpperCase()} (trust: ${next.trust})`;
-      } else statusEl.textContent='No more encounters';
+      if (blockIndex === 0) {
+        statusEl.textContent = `${rem} encounter(s) remaining`;
+      } else if (blockIndex < npcList.length) {
+        const next = npcList[blockIndex];
+        statusEl.textContent = `${rem} remaining — Next: ${next.relationship.toUpperCase()} (trust: ${next.trust})`;
+      } else {
+        statusEl.textContent = 'No more encounters';
+      }
     }
 
-    function renderEncounter(){
-      const npc=npcList[blockIndex];
-      npcAvatar.innerHTML = renderIcon(npc.svg,npc.icon);
-      encName.innerHTML   = renderIcon(npc.svg,npc.icon)+' '+npc.name;
+    function renderEncounter() {
+      const npc = npcList[blockIndex];
+      npcAvatar.innerHTML = renderIcon(npc.svg, npc.icon);
+      encName.innerHTML   = renderIcon(npc.svg, npc.icon) + ' ' + npc.name;
       encDesc.textContent = npc.description;
-      qForm.innerHTML='';
-      npc.questions.forEach((q,qi)=>{
-        const div=document.createElement('div');
-        div.innerHTML = `<p>${renderIcon(q.svg||q.icon,q.icon)} ${q.prompt}</p>`+
-          q.options.map((opt,oi)=>
-            `<label>${renderIcon(opt.svg||opt.icon,opt.icon)} ${opt.text}
-               <input type="radio" name="q${qi}" value="${oi}"/>
-             </label>`
-          ).join('');
+      qForm.innerHTML = '';
+      npc.questions.forEach((q, qi) => {
+        const div = document.createElement('div');
+        const p = document.createElement('p');
+        p.innerHTML = `${renderIcon(q.svg||q.icon, q.icon)} ${q.prompt}`;
+        div.appendChild(p);
+        q.options.forEach((opt, oi) => {
+          const lbl = document.createElement('label');
+          lbl.innerHTML = `${renderIcon(opt.svg||opt.icon, opt.icon)} ${opt.text}`;
+          const inp = document.createElement('input');
+          inp.type = 'radio'; inp.name = `q${qi}`; inp.value = oi;
+          lbl.appendChild(inp);
+          div.appendChild(lbl);
+        });
         qForm.appendChild(div);
       });
     }
 
-    function startEncounter(){
-      if(blockIndex>=npcList.length) return;
+    function startEncounter() {
+      if (blockIndex >= npcList.length) return;
       renderEncounter();
       openModal('modal-enc');
       flipBack();
     }
 
-    function processAnswers(){
-      const npc=npcList[blockIndex];
-      let trustDelta=0, stats={}, items=[];
-      npc.questions.forEach((q,qi)=>{
-        const sel=qForm.querySelector(`input[name="q${qi}"]:checked`);
-        if(sel){
-          const opt=npc.questions[qi].options[+sel.value];
-          Object.entries(opt.reward.stats).forEach(([k,v])=>{
-            stats[k]=(stats[k]||0)+v; trustDelta+=v;
+    function processAnswers() {
+      const npc = npcList[blockIndex];
+      let trustDelta=0, statsSum={}, items=[];
+      npc.questions.forEach((q, qi) => {
+        const sel = qForm.querySelector(`input[name="q${qi}"]:checked`);
+        if (sel) {
+          const opt = npc.questions[qi].options[+sel.value];
+          Object.entries(opt.reward.stats).forEach(([k,v]) => {
+            statsSum[k] = (statsSum[k]||0) + v;
+            trustDelta += v;
           });
           items.push(...opt.reward.items);
-          trustDelta+=opt.reward.items.length*2;
+          trustDelta += opt.reward.items.length*2;
         }
       });
-      Object.entries(stats).forEach(([k,v])=>player[k]+=v);
+      Object.entries(statsSum).forEach(([k,v]) => player[k]+=v);
       player.inv.push(...items);
       ['end','agi','per','str','hun','thi','mor','cha'].forEach(k=>
-        document.getElementById('stat-'+k).textContent=player[k]
+        document.getElementById('stat-'+k).textContent = player[k]
       );
-      npc.trust+=trustDelta;
-      npc.relationship=deriveRelationship(npc.trust);
+      npc.trust += trustDelta;
+      npc.relationship = deriveRelationship(npc.trust);
       closeModal('modal-enc');
       flipFront();
       blockIndex++;
       updateStatus();
     }
 
-    window.onload=()=>{
-      loadAll();
+    window.onload = () => {
+      loadEncounters();
       flipFront();
-      encBtn.onclick        = startEncounter;
+      encBtn.onclick = startEncounter;
       document.getElementById('submit-answers')
-        .addEventListener('click',e=>{e.preventDefault();processAnswers()});
+        .addEventListener('click', e => { e.preventDefault(); processAnswers(); });
       viewSkillsBtn.onclick = flipBack;
       viewProfBtn.onclick   = flipFront;
-      gearBtn.onclick       = ()=>openModal('modal-gear');
-      invBtn.onclick        = ()=>openModal('modal-inv');
+      gearBtn.onclick       = () => openModal('modal-gear');
+      invBtn.onclick        = () => openModal('modal-inv');
     };
   </script>
 </body>
