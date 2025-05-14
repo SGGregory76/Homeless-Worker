@@ -2,249 +2,280 @@
 <html lang="en">
 <head>
   <meta charset="UTF-8" />
-  <title>City Survivor Profile</title>
-  <meta name="viewport" content="width=device-width, initial-scale=1" />
-
-  <!-- Inlined style.css -->
+  <title>Survivor Profile</title>
+  <meta name="viewport" content="width=device-width,initial-scale=1">
   <style>
-    /* Reset & Base */
-    * { margin: 0; padding: 0; box-sizing: border-box; }
-    body { background: #111; color: #ddd; font-family: Arial, sans-serif; }
+    * { margin:0; padding:0; box-sizing:border-box }
+    body { background:#111; color:#ddd; font-family:Arial,sans-serif }
+    #widget { max-width:360px; margin:20px auto; position:relative }
+    h1 { text-align:center; color:#ccc; font-size:1.8rem; margin-bottom:16px }
 
-    /* Shell */
-    #survivor-widget { max-width: 360px; margin: 20px auto; text-align: center; }
-
-    /* Title */
-    #survivor-widget h1 {
-      color: #bbb;
-      font-size: 1.8rem;
-      margin-bottom: 16px;
+    #errorLog { display:none; background:#440000; color:#f88;
+      padding:10px; margin-bottom:12px; font-family:monospace; text-align:center;
     }
 
-    /* Card container */
-    .card-container {
-      position: relative;
-      width: 100%;
-      aspect-ratio: 360/504;
-      perspective: 1000px;
+    .card { width:100%; aspect-ratio:360/504; perspective:1000px; margin-bottom:12px }
+    .card .inner {
+      position:relative; width:100%; height:100%;
+      transform-style:preserve-3d; transition:transform .6s;
     }
+    .card.flip .inner { transform:rotateY(180deg) }
 
-    /* Modals */
-    .modal {
-      display: none;
-      position: absolute;
-      inset: 0;
-      background: rgba(0, 0, 0, 0.85);
-      color: #ddd;
-      padding: 20px;
-      border-radius: 12px;
-      z-index: 10;
-    }
-    .modal h2 { color: #bbb; font-size: 1.2rem; margin-bottom: 12px; }
-    .modal p { margin-bottom: 16px; }
-    .modal button {
-      padding: 8px 16px;
-      background: #444;
-      color: #ddd;
-      border: none;
-      border-radius: 6px;
-      cursor: pointer;
-    }
-<button onclick="startEncounter()">Encounter NPC</button>
-
-    /* Flip card */
-    .flip-card {
-      width: 100%;
-      height: 100%;
-      transform-style: preserve-3d;
-      transition: transform 0.6s;
-      position: relative;
-      cursor: pointer;
-    }
     .front, .back {
-      position: absolute;
-      inset: 0;
-      border-radius: 12px;
-      overflow: hidden;
-      backface-visibility: hidden;
+      position:absolute; inset:0; backface-visibility:hidden;
+      background:#2b2b2b; border-radius:12px;
+      box-shadow:0 6px 12px rgba(0,0,0,0.6);
+      display:flex; flex-direction:column; padding:20px;
     }
-    .front {
-      background: #2b2b2b;
-      color: #ddd;
-      padding: 20px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.6);
-    }
-    .back {
-      background: #2b2b2b;
-      color: #ddd;
-      padding: 20px;
-      box-shadow: 0 6px 12px rgba(0,0,0,0.6);
-      display: none;
-      transform: rotateY(180deg);
-    }
+    .front { transform:rotateY(0deg); }
+    .back  { transform:rotateY(180deg); }
 
-    /* Header & footer */
-    .header, .footer {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      margin-bottom: 16px;
-    }
-    .header h2 {
-      flex: 1;
-      color: #bbb;
-      font-size: 1.5rem;
-    }
+    .header, .footer { display:flex; justify-content:space-between; margin-bottom:16px }
     .avatar, .slot {
-      width: 48px;
-      height: 48px;
-      background: #444;
-      border-radius: 50%;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1.5rem;
-    }
-    .footer button {
-      flex: 1;
-      margin: 0 4px;
-      padding: 10px;
-      background: #444;
-      color: #ddd;
-      border: none;
-      border-radius: 6px;
-      font-size: .9rem;
-      cursor: pointer;
+      width:48px; height:48px; background:#444; border-radius:50%;
+      display:flex; align-items:center; justify-content:center; font-size:1.5rem;
     }
 
-    /* Stats grid */
-    .stats-grid {
-      display: grid;
-      grid-template-columns: repeat(4,1fr);
-      gap: 8px;
-      margin-bottom: 16px;
+    .stats {
+      display:grid; grid-template-columns:repeat(4,1fr);
+      gap:8px; flex-grow:1;
     }
-    .stat {
-      background: #3a3a3a;
-      padding: 10px;
-      border-radius: 6px;
-      text-align: center;
-    }
-    .stat small {
-      display: block;
-      color: #999;
-      font-size: .8rem;
-      margin-bottom: 4px;
-    }
-    .stat strong {
-      display: block;
-      color: #eee;
-      font-size: 1.1rem;
-    }
+    .stat { background:#3a3a3a; padding:8px; border-radius:6px; text-align:center }
+    .stat small { color:#999; font-size:.75rem; display:block }
+    .stat strong { color:#eee; font-size:1.1rem; display:block }
 
-    /* Derived & containers */
-    .derived, .containers {
-      display: flex;
-      justify-content: space-between;
-      color: #bbb;
-      margin-bottom: 16px;
-      font-size: .9rem;
+    button {
+      background:#444; color:#ddd; border:none; border-radius:6px;
+      padding:8px 12px; cursor:pointer; font-size:.9rem;
     }
+    .footer button { flex:1; margin:0 4px }
+    #view-skills, #encBtn { width:100%; margin-top:12px }
 
-    /* Skills list */
-    .skill-list {
-      text-align: left;
-      list-style: disc inside;
-      color: #ddd;
-      margin-bottom: 16px;
+    .modal {
+      display:none; position:absolute; top:50%; left:50%;
+      transform:translate(-50%,-50%);
+      background:#2b2b2b; border-radius:12px;
+      box-shadow:0 6px 12px rgba(0,0,0,0.6);
+      width:90%; max-width:320px; padding:20px; z-index:1000;
     }
-    .skill-list li {
-      margin-bottom: 6px;
-    }
+    .modal h2 { color:#ccc; margin-bottom:12px; text-align:center }
+    #question-form div { margin-bottom:12px }
+    #question-form label { display:block }
+    .actions { display:flex; justify-content:center; margin-top:16px }
   </style>
 </head>
 <body>
 
-  <div id="survivor-widget">
-    <h1>City Survivor Profile</h1>
-    <div class="card-container">
-
-      <!-- Modals -->
-      <div id="modal-allocate" class="modal">
-        <h2>Allocate Points</h2>
-        <p>No points to allocate.</p>
-        <button onclick="event.stopPropagation(); this.parentNode.style.display='none';">Close</button>
-      </div>
-      <div id="modal-gear" class="modal">
-        <h2>Manage Gear</h2>
-        <p>No gear equipped.</p>
-        <button onclick="event.stopPropagation(); this.parentNode.style.display='none';">Close</button>
-      </div>
-      <div id="modal-inv" class="modal">
-        <h2>Inventory</h2>
-        <p>Your inventory is empty.</p>
-        <button onclick="event.stopPropagation(); this.parentNode.style.display='none';">Close</button>
-      </div>
-
-      <!-- Flip Card -->
-      <div class="flip-card" onclick="
-        const f=this.querySelector('.front'),
-              b=this.querySelector('.back');
-        if (f.style.display==='none') {
-          f.style.display='block'; b.style.display='none';
-        } else {
-          f.style.display='none'; b.style.display='block';
+  <!-- inline encounter definitions -->
+  <script type="application/json" class="enc">
+  [
+    {
+      "name":"Mysterious Stranger",
+      "description":"A cloaked figure offers you choices...",
+      "questions":[
+        {
+          "prompt":"Do you trust the stranger?",
+          "options":[
+            { "text":"Yes","reward":{"stats":{"end":1,"agi":1},"items":["Coin"]} },
+            { "text":"No","reward":{"stats":{},"items":[]}}  
+          ]
         }
-      ">
-        <!-- Front -->
+      ]
+    }
+  ]
+  </script>
+
+  <script type="application/json" class="enc">
+  [
+    {
+      "name":"Hidden Cache",
+      "description":"You find a stash...",
+      "questions":[
+        {
+          "prompt":"Open it?",
+          "options":[
+            { "text":"Yes","reward":{"stats":{"str":1},"items":["Knife"]} },
+            { "text":"No","reward":{"stats":{},"items":[]}}
+          ]
+        }
+      ]
+    }
+  ]
+  </script>
+
+  <div id="widget">
+    <div id="errorLog"></div>
+    <h1>City Survivor</h1>
+
+    <div class="card" id="card">
+      <div class="inner">
+        <!-- front -->
         <div class="front">
           <div class="header">
-            <div class="avatar" title="Avatar">👤</div>
-            <h2 title="Name">City Survivor</h2>
-            <div style="display:flex;gap:8px;">
-              <div class="slot" title="Weapon"></div>
-              <div class="slot" title="Armor"></div>
+            <div class="avatar">👤</div>
+            <div style="display:flex; gap:8px">
+              <div class="slot"></div><div class="slot"></div>
             </div>
           </div>
-          <div class="stats-grid">
-            <div class="stat"><small>END</small><strong>0</strong></div>
-            <div class="stat"><small>AGI</small><strong>0</strong></div>
-            <div class="stat"><small>PER</small><strong>0</strong></div>
-            <div class="stat"><small>STR</small><strong>0</strong></div>
-            <div class="stat"><small>HUN</small><strong>0</strong></div>
-            <div class="stat"><small>THI</small><strong>0</strong></div>
-            <div class="stat"><small>MOR</small><strong>0</strong></div>
-            <div class="stat"><small>CHA</small><strong>0</strong></div>
-          </div>
-          <div class="derived">
-            <div>HP Max: <span>10</span></div>
-            <div>AP: <span>3</span></div>
-            <div>SA: <span>5</span></div>
-          </div>
-          <div class="containers">
-            <div>🎒 <span>0</span></div>
-            <div>🧰 <span>0</span></div>
-            <div>💰 <span>0</span></div>
+          <div class="stats">
+            <div class="stat"><small>END</small><strong id="stat-end">0</strong></div>
+            <div class="stat"><small>AGI</small><strong id="stat-agi">0</strong></div>
+            <div class="stat"><small>PER</small><strong id="stat-per">0</strong></div>
+            <div class="stat"><small>STR</small><strong id="stat-str">0</strong></div>
+            <div class="stat"><small>HUN</small><strong id="stat-hun">0</strong></div>
+            <div class="stat"><small>THI</small><strong id="stat-thi">0</strong></div>
+            <div class="stat"><small>MOR</small><strong id="stat-mor">0</strong></div>
+            <div class="stat"><small>CHA</small><strong id="stat-cha">0</strong></div>
           </div>
           <div class="footer">
-            <button title="Allocate Points" onclick="event.stopPropagation(); document.getElementById('modal-allocate').style.display='block';">Allocate</button>
-            <button title="Manage Gear" onclick="event.stopPropagation(); document.getElementById('modal-gear').style.display='block';">Gear</button>
-            <button title="Inventory" onclick="event.stopPropagation(); document.getElementById('modal-inv').style.display='block';">Inv</button>
+            <button id="gear-btn">Gear</button>
+            <button id="inv-btn">Inv</button>
           </div>
+          <button id="view-skills">View Skills</button>
+          <button id="encBtn">NPC Encounter</button>
         </div>
-
-        <!-- Back -->
-        <div class="back" style="display:none; transform: rotateY(180deg);">
-          <h3 style="color:#bbb; margin-bottom:12px;">Unlocked Skills</h3>
-          <ul id="skills-list" class="skill-list"></ul>
-          <button onclick="event.stopPropagation();" style="width:100%;padding:10px;background:#444;color:#ddd;border:none;border-radius:6px;cursor:pointer;">Back</button>
+        <!-- back -->
+        <div class="back">
+          <h3>Unlocked Skills</h3>
+          <ul id="skills-list"></ul>
+          <button id="view-profile">Back to Profile</button>
         </div>
       </div>
-
     </div>
   </div>
 
-  <!-- External script (flip & modals logic + dynamic skills) -->
-  <script type="module" src="https://cdn.jsdelivr.net/gh/YOUR_GITHUB_USERNAME/YOUR_REPO_NAME@main/survivor.js"></script>
+  <!-- encounter modal (submit only) -->
+  <div class="modal" id="modal-enc">
+    <h2 id="enc-name">Encounter</h2>
+    <p id="enc-desc"></p>
+    <form id="question-form"></form>
+    <div class="actions">
+      <button id="submit-answers">Submit</button>
+    </div>
+  </div>
+
+  <!-- gear modal -->
+  <div class="modal" id="modal-gear">
+    <h2>Gear</h2>
+    <p>(gear UI here)</p>
+    <div class="actions">
+      <button onclick="closeModal('modal-gear')">Close</button>
+    </div>
+  </div>
+
+  <!-- inventory modal -->
+  <div class="modal" id="modal-inv">
+    <h2>Inventory</h2>
+    <p>(inventory UI here)</p>
+    <div class="actions">
+      <button onclick="closeModal('modal-inv')">Close</button>
+    </div>
+  </div>
+
+  <script>
+    const errorLog      = document.getElementById('errorLog');
+    const card          = document.getElementById('card');
+    const encBtn        = document.getElementById('encBtn');
+    const viewSkillsBtn = document.getElementById('view-skills');
+    const viewProfBtn   = document.getElementById('view-profile');
+    const gearBtn       = document.getElementById('gear-btn');
+    const invBtn        = document.getElementById('inv-btn');
+    const encName       = document.getElementById('enc-name');
+    const encDesc       = document.getElementById('enc-desc');
+    const qForm         = document.getElementById('question-form');
+
+    let scripts     = [], blockIndex = 0;
+    const player = { end:0,agi:0,per:0,str:0,hun:0,thi:0,mor:0,cha:0,inv:[],skills:[] };
+
+    function showError(msg) {
+      errorLog.textContent = msg;
+      errorLog.style.display = 'block';
+    }
+    function openModal(id)  { document.getElementById(id).style.display = 'block'; }
+    function closeModal(id) { document.getElementById(id).style.display = 'none'; }
+    function flipBack()     { card.classList.add('flip'); }
+    function flipFront()    { card.classList.remove('flip'); }
+
+    function loadScripts() {
+      const nodes = document.querySelectorAll('script.enc[type="application/json"]');
+      if (!nodes.length) {
+        showError('No encounters found.');
+        return;
+      }
+      scripts = Array.from(nodes).map((s,i) => {
+        try { return JSON.parse(s.textContent); }
+        catch(e){ showError(`JSON error #${i+1}: ${e.message}`); }
+      });
+    }
+
+    function renderEncounter() {
+      const enc = scripts[blockIndex][0];
+      encName.textContent = enc.name;
+      encDesc.textContent = enc.description;
+      qForm.innerHTML = '';
+      enc.questions.forEach((q,qi) => {
+        const div = document.createElement('div');
+        div.innerHTML = `<p>${q.prompt}</p>`;
+        q.options.forEach((opt,oi) => {
+          div.innerHTML += `<label>
+            <input type="radio" name="q${qi}" value="${oi}"/> ${opt.text}
+          </label>`;
+        });
+        qForm.appendChild(div);
+      });
+    }
+
+    function startEncounter() {
+      if (blockIndex >= scripts.length) {
+        encBtn.disabled = true;
+        encBtn.textContent = 'No more encounters';
+        return;
+      }
+      renderEncounter();
+      openModal('modal-enc');
+      flipBack();
+      encBtn.style.display = 'none';
+    }
+
+    function processAnswers() {
+      const enc = scripts[blockIndex][0];
+      let stats = {end:0,agi:0,per:0,str:0,hun:0,thi:0,mor:0,cha:0}, items = [];
+      enc.questions.forEach((q,qi) => {
+        const sel = qForm.querySelector(`input[name="q${qi}"]:checked`);
+        if (sel) {
+          const opt = enc.questions[qi].options[+sel.value];
+          Object.entries(opt.reward.stats).forEach(([k,v]) => stats[k]+=v);
+          items.push(...opt.reward.items);
+        }
+      });
+      Object.entries(stats).forEach(([k,v]) => player[k]+=v);
+      player.inv.push(...items);
+      ['end','agi','per','str','hun','thi','mor','cha'].forEach(k => {
+        document.getElementById('stat-'+k).textContent = player[k];
+      });
+      closeModal('modal-enc');
+      flipFront();
+      blockIndex++;
+      setTimeout(() => {
+        encBtn.style.display = 'inline-block';
+        if (blockIndex >= scripts.length) {
+          encBtn.disabled = true;
+          encBtn.textContent = 'No more encounters';
+        }
+      }, 15000);
+    }
+
+    window.onload = () => {
+      loadScripts();
+      flipFront();
+      gearBtn.onclick       = () => openModal('modal-gear');
+      invBtn.onclick        = () => openModal('modal-inv');
+      viewSkillsBtn.onclick = () => flipBack();
+      viewProfBtn.onclick   = () => flipFront();
+      encBtn.onclick        = startEncounter;
+      document.getElementById('submit-answers')
+        .addEventListener('click', e => { e.preventDefault(); processAnswers(); });
+    };
+  </script>
 </body>
 </html>
